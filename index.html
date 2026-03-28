@@ -199,6 +199,15 @@
 
                 const callbacks = {
                   onReadyForServerApproval: (id) => {
+                   onReadyForServerApproval: (paymentId) => {
+    // هذه الخطوة تخبر Pi أنك كمطور وافقت على العملية
+    fetch(`https://api.minepi.com/v2/payments/${paymentId}/approve`, {
+        method: 'POST',
+        headers: { 'Authorization': 'Key YOUR_API_KEY' } 
+    });
+    console.log("تمت الموافقة على العملية:", paymentId);
+},
+
                     statusEl.textContent = "Approving...";
                     postJson("/.netlify/functions/pi-approve", { paymentId: id, accessToken: auth.accessToken })
                       .then(res => statusEl.textContent = res.ok ? "Approved" : "Approve failed");
